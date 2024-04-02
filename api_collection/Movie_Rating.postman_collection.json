@@ -1,0 +1,260 @@
+{
+	"info": {
+		"_postman_id": "dfdee8cb-1e60-44e4-8346-1723f83633cf",
+		"name": "Movie_Rating",
+		"description": "admin log in: email: admin@gmail.com. and password: 1016. The access key expire is set as 40 min. After log in use the access and refresh key cause al the endpoint are authenticated.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32610424"
+	},
+	"item": [
+		{
+			"name": "user-registration",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Macy Doe\",\n    \"phone\":\"4444444444\",\n    \"password\":\"pass4\",\n    \"email\":\"macy_doe@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/user-registration/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"user-registration",
+						""
+					]
+				},
+				"description": "Api Endpoint for **user reistration**. A user can register using the name,phone,password and email. Name,phone and email must be unique for all user otherwise it will give an error message indicating which fields it belongs to."
+			},
+			"response": []
+		},
+		{
+			"name": "user-login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"jane_doe@gmail.com\",\n    \"password\":\"pass2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/user-login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"user-login",
+						""
+					]
+				},
+				"description": "Api Endpoint for logging in registered user. By this endpoint a registered user can log in using their **Email** and **Password**. After log In user will get an **access and a refresh token.** SimplleJwt authentication is used for authenticated a user."
+			},
+			"response": []
+		},
+		{
+			"name": "add-movie",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyMDkwMDc1LCJpYXQiOjE3MTIwODc2NzUsImp0aSI6IjMwNDIxMTJhYWNhYzQ1MmFiMmJlYTRiOTc0NDBmNDFiIiwidXNlcl9pZCI6M30.F8R1oAwOPSvrb5L2benmBv__VeC213RNvT5oeh_dRgM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"The Godfather\",\n    \"genre\":\"Crime\",\n    \"rating\":\"R\",\n    \"release_date\":\"01-04-1972\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/add-movie/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"add-movie",
+						""
+					]
+				},
+				"description": "Api endpoint by which a regiter user can add movie. The movie name can not be same.If the name is same then it will throw error."
+			},
+			"response": []
+		},
+		{
+			"name": "list of movies",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyMDkwMDc1LCJpYXQiOjE3MTIwODc2NzUsImp0aSI6IjMwNDIxMTJhYWNhYzQ1MmFiMmJlYTRiOTc0NDBmNDFiIiwidXNlcl9pZCI6M30.F8R1oAwOPSvrb5L2benmBv__VeC213RNvT5oeh_dRgM",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/movies/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"movies",
+						""
+					]
+				},
+				"description": "Api end point in which user can see the list of all movie.Also the rating will be shown as average rating and the total number of movies will be displayed as the count number."
+			},
+			"response": []
+		},
+		{
+			"name": "search by name",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyMDkwMDc1LCJpYXQiOjE3MTIwODc2NzUsImp0aSI6IjMwNDIxMTJhYWNhYzQ1MmFiMmJlYTRiOTc0NDBmNDFiIiwidXNlcl9pZCI6M30.F8R1oAwOPSvrb5L2benmBv__VeC213RNvT5oeh_dRgM",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "Bearer ",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/movies/search/?name=home",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"movies",
+						"search",
+						""
+					],
+					"query": [
+						{
+							"key": "genre",
+							"value": "action",
+							"disabled": true
+						},
+						{
+							"key": "similar",
+							"value": "action",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "home"
+						}
+					]
+				},
+				"description": "In this end point Fuzzy matching is used for partial matches. Fuzzy string matching is **the technique of finding strings that match with a given string partially and not exactly**. When a user misspells a word or enters a word partially, fuzzy string matching helps in finding the right word – as we see in search engines. Also the average rating will shown with the total number of search result."
+			},
+			"response": []
+		},
+		{
+			"name": "rate-movie",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyMDkwMDc1LCJpYXQiOjE3MTIwODc2NzUsImp0aSI6IjMwNDIxMTJhYWNhYzQ1MmFiMmJlYTRiOTc0NDBmNDFiIiwidXNlcl9pZCI6M30.F8R1oAwOPSvrb5L2benmBv__VeC213RNvT5oeh_dRgM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"rating\": 4.5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/movies/1/rate/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"movies",
+						"1",
+						"rate",
+						""
+					]
+				},
+				"description": "An api endpoint by which user will able to rate a movie. And from this the average rating will be callculated."
+			},
+			"response": []
+		}
+	]
+}
