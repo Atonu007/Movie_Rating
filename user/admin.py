@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import UserModel,Movie
+from .models import UserModel,Movie, Rating
 
 class UserModelAdmin(BaseUserAdmin):
     # Displayed columns in the admin list view
@@ -36,4 +36,5 @@ class UserModelAdmin(BaseUserAdmin):
 # Register the User model with the custom admin configuration
 admin.site.register(UserModel, UserModelAdmin)
 admin.site.register(Movie)
+admin.site.register(Rating)
 

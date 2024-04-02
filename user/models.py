@@ -10,17 +10,15 @@ class UserManager(BaseUserManager):
             raise ValueError('User must have an email address')
         
         user = self.model(
-            email=self.normalize_email(email),  # Normalize the email address to lowercase
+            email=self.normalize_email(email), 
             name=name,
             phone=phone,
         )
 
-        # Set the password and save the user
         user.set_password(password)
         user.save(using=self._db)
         return user
-   
-    # Creates and saves a superuser with the given email, name and password.
+    
     def create_superuser(self, email, name, phone, password=None):
         user = self.create_user(
             email,
@@ -28,8 +26,7 @@ class UserManager(BaseUserManager):
             name=name,
             phone=phone,
         )
-        
-        # Set the user as admin and save
+       
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -48,10 +45,10 @@ class UserModel(AbstractBaseUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    objects = UserManager()  # Use UserManager for managing users
+    objects = UserManager()  
 
-    USERNAME_FIELD = 'email'  # Use email as the unique identifier for authentication
-    REQUIRED_FIELDS = ['name', 'phone']  # Fields required when creating a user
+    USERNAME_FIELD = 'email'  
+    REQUIRED_FIELDS = ['name', 'phone']  
 
     def __str__(self):
         return self.name
@@ -68,12 +65,23 @@ class UserModel(AbstractBaseUser):
     
 
 class Movie(models.Model):
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, null=True, blank=True)
-    name = models.CharField(max_length=100,unique= True) #user can't add movie with existing name
-    genre = models.CharField(max_length=100) 
-    rating = models.DecimalField(max_digits=5, decimal_places=2) 
-    release_date = models.DateField() 
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, null=True, blank=True, related_name='movies')
+    name = models.CharField(max_length=100, unique=True)
+    genre = models.CharField(max_length=100)
+    release_date = models.DateField()
+
     
+    ratings = models.ManyToManyField('Rating', related_name='movies', blank=True)
 
     def __str__(self):
         return self.name
+
+class Rating(models.Model):
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='ratings_given')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='user_ratings')
+    rating = models.DecimalField(max_digits=5, decimal_places=2)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.name} rated {self.movie.name} - {self.rating}"
