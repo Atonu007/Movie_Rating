@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import UserModel
+from .models import Movie, UserModel
 
 
 
-#user registration
+
 class UserRegistrationSerializer(serializers.ModelSerializer):
    
     class Meta:
@@ -20,7 +20,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return UserModel.objects.create_user(**validated_data)
     
 
-#user login
+
 class UserLoginSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=255)  
     
@@ -29,3 +29,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
         fields = ['email', 'password']
 
     
+class MovieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        exclude = ('user',)

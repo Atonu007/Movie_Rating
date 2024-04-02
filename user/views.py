@@ -2,8 +2,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate,login
 from rest_framework.views import APIView
-from .serializers import UserLoginSerializer, UserRegistrationSerializer
+from .serializers import MovieSerializer, UserLoginSerializer, UserRegistrationSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
 
 #generate token manaually 
 def get_tokens_for_user(user):
@@ -39,3 +40,14 @@ class UserLogin(APIView):
             else:
                 return Response({'errors': {'non_field_errors': ['Email or Password is not valid']}}, status=status.HTTP_404_NOT_FOUND)
         return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+    
+#user add movie
+class AddMovieAPIView(APIView):
+    permission_classes = [IsAuthenticated]  
+
+    def post(self, request, format=None):
+        serializer = MovieSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=self.request.user)  # the 'user' field auto filled with logged-in user
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -65,3 +65,15 @@ class UserModel(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+    
+
+class Movie(models.Model):
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=100,unique= True) #user can't add movie with existing name
+    genre = models.CharField(max_length=100) 
+    rating = models.DecimalField(max_digits=5, decimal_places=2) 
+    release_date = models.DateField() 
+    
+
+    def __str__(self):
+        return self.name
